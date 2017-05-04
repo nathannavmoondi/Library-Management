@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ApiLibrary.Infrastructure" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BookSignedOut">
+    <Key>
+      <PropertyRef Name="LibraryBookSId" />
+      <PropertyRef Name="MemberId" />
+      <PropertyRef Name="WhenSignedOut" />
+    </Key>
+    <Property Name="LibraryBookSId" Type="Int32" Nullable="false" />
+    <Property Name="MemberId" Type="Int32" Nullable="false" />
+    <Property Name="WhenSignedOut" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="WhenReturned" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_BookSignedOut_Member" FromRole="BookSignedOut" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="BookTitle">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ISBN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DateOfPublication" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Books" Relationship="Self.FK_Library_Book_BookTitle" FromRole="BookTitle" ToRole="Library_Book" />
+  </EntityType>
+  <EntityType Name="Library">
+    <Key>
+      <PropertyRef Name="LibraryId" />
+    </Key>
+    <Property Name="LibraryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Books" Relationship="Self.FK_Library_Book_Library" FromRole="Library" ToRole="Library_Book" />
+  </EntityType>
+  <EntityType Name="LibraryBook">
+    <Key>
+      <PropertyRef Name="LibraryBookSId" />
+    </Key>
+    <Property Name="LibraryBookSId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LibraryId" Type="Int32" Nullable="false" />
+    <Property Name="BookId" Type="Int32" Nullable="false" />
+    <Property Name="TotalPurchasedByLibrary" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BookTitle" Relationship="Self.FK_Library_Book_BookTitle" FromRole="Library_Book" ToRole="BookTitle" />
+    <NavigationProperty Name="Library" Relationship="Self.FK_Library_Book_Library" FromRole="Library_Book" ToRole="Library" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="BookSignedOut" Relationship="Self.FK_BookSignedOut_Member" FromRole="Member" ToRole="BookSignedOut" />
+  </EntityType>
+  <Association Name="FK_BookSignedOut_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="BookSignedOut" Type="Self.BookSignedOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="BookSignedOut">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Library_Book_BookTitle">
+    <End Role="BookTitle" Type="Self.BookTitle" Multiplicity="1" />
+    <End Role="Library_Book" Type="ApiLibrary.Infrastructure.LibraryBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookTitle">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="Library_Book">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Library_Book_Library">
+    <End Role="Library" Type="Self.Library" Multiplicity="1" />
+    <End Role="Library_Book" Type="ApiLibrary.Infrastructure.LibraryBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Library">
+        <PropertyRef Name="LibraryId" />
+      </Principal>
+      <Dependent Role="Library_Book">
+        <PropertyRef Name="LibraryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MainModuleUnitOfWork" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BookSignedOut" EntityType="Self.BookSignedOut" />
+    <EntitySet Name="BookTitle" EntityType="Self.BookTitle" />
+    <EntitySet Name="Library" EntityType="Self.Library" />
+    <EntitySet Name="LibraryBooks" EntityType="ApiLibrary.Infrastructure.LibraryBook" />
+    <EntitySet Name="Member" EntityType="Self.Member" />
+    <AssociationSet Name="FK_BookSignedOut_Member" Association="Self.FK_BookSignedOut_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="BookSignedOut" EntitySet="BookSignedOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Library_Book_BookTitle" Association="Self.FK_Library_Book_BookTitle">
+      <End Role="BookTitle" EntitySet="BookTitle" />
+      <End Role="Library_Book" EntitySet="LibraryBooks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Library_Book_Library" Association="Self.FK_Library_Book_Library">
+      <End Role="Library" EntitySet="Library" />
+      <End Role="Library_Book" EntitySet="LibraryBooks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

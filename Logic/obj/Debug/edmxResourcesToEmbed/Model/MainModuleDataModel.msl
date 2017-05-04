@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ApiLibraryInfrastructureStoreContainer" CdmEntityContainer="MainModuleUnitOfWork">
+    <EntitySetMapping Name="BookSignedOut">
+      <EntityTypeMapping TypeName="ApiLibrary.Infrastructure.BookSignedOut">
+        <MappingFragment StoreEntitySet="BookSignedOut">
+          <ScalarProperty Name="LibraryBookSId" ColumnName="LibraryBookSId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="WhenSignedOut" ColumnName="WhenSignedOut" />
+          <ScalarProperty Name="WhenReturned" ColumnName="WhenReturned" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookTitle">
+      <EntityTypeMapping TypeName="ApiLibrary.Infrastructure.BookTitle">
+        <MappingFragment StoreEntitySet="BookTitle">
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="DateOfPublication" ColumnName="DateOfPublication" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Library">
+      <EntityTypeMapping TypeName="ApiLibrary.Infrastructure.Library">
+        <MappingFragment StoreEntitySet="Library">
+          <ScalarProperty Name="LibraryId" ColumnName="LibraryId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="City" ColumnName="City" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LibraryBooks">
+      <EntityTypeMapping TypeName="ApiLibrary.Infrastructure.LibraryBook">
+        <MappingFragment StoreEntitySet="Library_Book">
+          <ScalarProperty Name="LibraryBookSId" ColumnName="LibraryBookSId" />
+          <ScalarProperty Name="LibraryId" ColumnName="LibraryId" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="TotalPurchasedByLibrary" ColumnName="TotalPurchasedByLibrary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Member">
+      <EntityTypeMapping TypeName="ApiLibrary.Infrastructure.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

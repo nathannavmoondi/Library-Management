@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ApiLibrary.Infrastructure.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BookSignedOut">
+    <Key>
+      <PropertyRef Name="LibraryBookSId" />
+      <PropertyRef Name="MemberId" />
+      <PropertyRef Name="WhenSignedOut" />
+    </Key>
+    <Property Name="LibraryBookSId" Type="int" Nullable="false" />
+    <Property Name="MemberId" Type="int" Nullable="false" />
+    <Property Name="WhenSignedOut" Type="datetime" Nullable="false" />
+    <Property Name="WhenReturned" Type="datetime" />
+  </EntityType>
+  <EntityType Name="BookTitle">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="255" />
+    <Property Name="ISBN" Type="varchar" MaxLength="50" />
+    <Property Name="DateOfPublication" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Library">
+    <Key>
+      <PropertyRef Name="LibraryId" />
+    </Key>
+    <Property Name="LibraryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" />
+    <Property Name="City" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Library_Book">
+    <Key>
+      <PropertyRef Name="LibraryBookSId" />
+    </Key>
+    <Property Name="LibraryBookSId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LibraryId" Type="int" Nullable="false" />
+    <Property Name="BookId" Type="int" Nullable="false" />
+    <Property Name="TotalPurchasedByLibrary" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="255" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_BookSignedOut_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="BookSignedOut" Type="Self.BookSignedOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberId" />
+      </Principal>
+      <Dependent Role="BookSignedOut">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Library_Book_BookTitle">
+    <End Role="BookTitle" Type="Self.BookTitle" Multiplicity="1" />
+    <End Role="Library_Book" Type="Self.Library_Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookTitle">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="Library_Book">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Library_Book_Library">
+    <End Role="Library" Type="Self.Library" Multiplicity="1" />
+    <End Role="Library_Book" Type="Self.Library_Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Library">
+        <PropertyRef Name="LibraryId" />
+      </Principal>
+      <Dependent Role="Library_Book">
+        <PropertyRef Name="LibraryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ApiLibraryInfrastructureStoreContainer">
+    <EntitySet Name="BookSignedOut" EntityType="Self.BookSignedOut" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookTitle" EntityType="Self.BookTitle" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Library" EntityType="Self.Library" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Library_Book" EntityType="Self.Library_Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_BookSignedOut_Member" Association="Self.FK_BookSignedOut_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="BookSignedOut" EntitySet="BookSignedOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Library_Book_BookTitle" Association="Self.FK_Library_Book_BookTitle">
+      <End Role="BookTitle" EntitySet="BookTitle" />
+      <End Role="Library_Book" EntitySet="Library_Book" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Library_Book_Library" Association="Self.FK_Library_Book_Library">
+      <End Role="Library" EntitySet="Library" />
+      <End Role="Library_Book" EntitySet="Library_Book" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

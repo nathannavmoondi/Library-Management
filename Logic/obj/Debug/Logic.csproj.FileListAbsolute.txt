@@ -1,0 +1,9 @@
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\bin\Debug\EntityFramework.dll
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\bin\Debug\EntityFramework.xml
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\bin\Debug\AkaLibrary.Logic.dll
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\bin\Debug\AkaLibrary.Logic.pdb
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\obj\Debug\AkaLibrary.Logic.dll
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\obj\Debug\AkaLibrary.Logic.pdb
+C:\Users\Administrator\Desktop\AkaLibraryMVC\Logic\obj\Debug\Logic.csprojResolveAssemblyReference.cache

@@ -1,0 +1,67 @@
+﻿@model  System.Collections.Generic.IEnumerable<Library_Book>
+
+@{
+    ViewBag.Title = "List of Books for Library";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Books in @Html.ViewBag.LibraryName</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BookTitle.Title)
+        </th>
+        <th>
+            Total Purchased By Library
+        </th>
+        <th>
+            Available
+        </th>
+        <th></th>
+    </tr>
+
+    @*
+
+        2. Change the list of books assigned to the library to display only available books for that library. A book is not available if
+        all copies are signed out. The user can choose a book.
+
+    *@
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookTitle.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPurchasedByLibrary)
+            </td>
+            <td>
+                @(item.TotalPurchasedByLibrary - item.BookSignedOuts.Count(bs => bs.WhenReturned == null))
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.LibraryBookSId })
+
+                @*
+
+                    3.a. The user cannot sign out more copies than are available of that book.
+                *@
+
+                @if ((item.TotalPurchasedByLibrary - item.BookSignedOuts.Count(bs => bs.WhenReturned == null)) > 0)
+                {
+                   @:| @Html.ActionLink("Sign Out", "Create", "BookSignedOuts", new { id = item.LibraryBookSId }, null)
+                }
+
+                @if ((item.TotalPurchasedByLibrary - item.BookSignedOuts.Count(bs => bs.WhenReturned == null)) < item.TotalPurchasedByLibrary)
+                {
+                   @:| @Html.ActionLink("Return", "List", "BookSignedOuts", new { id = item.LibraryBookSId }, null)
+                }
+            </td>
+
+        </tr>
+    }
+
+</table>
+

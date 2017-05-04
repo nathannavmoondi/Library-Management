@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BookSignedOut>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Return</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WhenSignedOut)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WhenSignedOut)
+        </td>
+        <td>
+            @using (Html.BeginForm("Edit", "BookSignedOuts", FormMethod.Post))
+            { 
+                @Html.Hidden("BookSignedOut.LibraryBookSId", item.LibraryBookSId)
+                @Html.Hidden("BookSignedOut.WhenSignedOut", item.WhenSignedOut)
+                @Html.Hidden("BookSignedOut.WhenReturned", item.WhenReturned)
+                @Html.Hidden("BookSignedOut.MemberId", item.MemberId)
+                <button type="submit">Return</button>
+            }
+
+            @*Html.ActionLink("Return", "Edit", new { id = item.LibraryBookSId })*@
+        </td>
+    </tr>
+}
+
+</table>
+
+@Html.ActionLink("Return Library", "index", "Libraries")
+
